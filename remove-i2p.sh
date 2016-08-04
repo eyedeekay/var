@@ -80,9 +80,9 @@ echo "OK"
 echo "Removing all I2P scripts"
 for file in $FILES; do
     if [ -e $file];then
-    rm $file
+        rm $file
     else
-    
+        echo $file "not found"
     fi
 done
 echo "OK"
@@ -117,11 +117,7 @@ qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 
 
 if [ "$qubes_vm_type" = "TemplateVM" ]; then
-    
-    # Display warning that TemplateVM is not connected to a Tor update proxy.
-    if [ ! -e '/var/run/qubes-service/whonix-secure-proxy' ]; then
-        /usr/lib/qubes-whonix/alert update /usr/lib/qubes-whonix/messages.yaml
-    fi    
+  
     if [ -e /usr/share/anon-gw-base-files/gateway ]; then
         disclaimer  
         remove_i2p_gw

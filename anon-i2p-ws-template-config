@@ -48,7 +48,7 @@ for i2p_port in $I2P_PORTS; do
    socat TCP-LISTEN:$i2p_port,fork TCP:$GATEWAY_IP:$i2p_port &
 done
 EOF
-echo "OK"
+    echo "OK"
 elif [ ! -d /etc/anon-ws-disable-stacked-tor.d/ ]; then
     echo "Using old Whonix <13 method"
     #Move i2p socat forwarding script and enable it
