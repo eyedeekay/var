@@ -37,7 +37,7 @@ esac
 }
 
 install_i2p() {
-echo "Installing I2P \n"
+echo "Installing I2P "
 echo "Adding the I2P Repository to the Apt list"
 #Add I2P Repo
 cat  > /etc/apt/sources.list.d/i2p.list << EOF
@@ -69,11 +69,12 @@ apt-get install i2p i2p-keyring
 #echo "i2p i2p/daemon boolean true" | debconf-set-selections
 
 #Move Scripts to their right place whonix-i2p 30_i2p_start.sh 30-i2p.sh 30.i2p_restart.sh i2p_config_proxyvm
-echo "\nMoving the Scripts and Icons to their proper place "
-if [ ! -d /usr/lib/i2p/ ]; thenkdir /usr/lib/i2p
+echo "Moving the Scripts and Icons to their proper place "
+#if [ ! -d /usr/lib/i2p/ ]; then
+mkdir /usr/lib/i2p
 mv i2p.sh /usr/lib/i2p/
 mv i2p-launcher /usr/bin/
-mv /res/*.png /usr/share/icons/anon-icon-pack
+mv res/*.png /usr/share/icons/anon-icon-pack
 mv 30_i2p_start.sh /etc/qubes/suspend-post.d/
 mv 30_i2p_restart.sh /etc/qubes/suspend-pre.d/
 echo "[Moving Scripts] OK" >> $LOGPATH 
