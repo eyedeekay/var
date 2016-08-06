@@ -1,6 +1,12 @@
 #!/bin/sh
 
+if [ `id -u ` -ne 0 ]; then 
 
+    echo "This script must be run as root" 
+
+    exit 1 
+
+fi
 
 set -e
 
@@ -18,8 +24,8 @@ echo "--Add the I2P Repositories"
 echo "--Update the system's packages" 
 echo "--Install I2P, custom Init.d script"
 echo "--Configure Firewall Settings to Only Allow I2P to connect to the Clearnet"
-echo "--Make I2P's directories persistent \n"
-echo "--Enabling Whonix-Gateways Own Traffic Transparent Proxy feature"
+echo "--Make I2P's directories persistent "
+echo "--Enabling Whonix-Gateways Own Traffic Transparent Proxy feature \n"
 
 
 
@@ -64,7 +70,7 @@ fi
 echo "[I2P Key Added] OK" >> $LOGPATH 
 echo "OK"
 apt-get update
-apt-get install i2p i2p-keyring
+apt-get install i2p i2p-keyring -y
 #TODO Decide if we should set predefined settings here
 #echo "i2p i2p/daemon boolean true" | debconf-set-selections
 
@@ -75,8 +81,8 @@ mkdir /usr/lib/i2p
 mv i2p.sh /usr/lib/i2p/
 mv i2p-launcher /usr/bin/
 mv res/*.png /usr/share/icons/anon-icon-pack
-mv 30_i2p_start.sh /etc/qubes/suspend-post.d/
-mv 30_i2p_restart.sh /etc/qubes/suspend-pre.d/
+mv 30_i2p-start.sh /etc/qubes/suspend-post.d/
+mv 30_i2p-restart.sh /etc/qubes/suspend-pre.d/
 echo "[Moving Scripts] OK" >> $LOGPATH 
 I2PROUTER="/usr/bin/i2prouter"
 # Install custom i2prouter stub scripts
@@ -85,7 +91,7 @@ for script in ${I2PROUTER} ${I2PROUTER}-nowrapper; do
     dpkg-divert --rename --add "${script}"
     cat > "$script" << EOF
 #!/bin/sh
-echo "This script is not used by Whonix.\nUse sudo i2p-launcher start"
+echo "This script is not used by Whonix.\n Use sudo i2p-launcher start"
 exit 0
 EOF
     chmod 755 "$script"
@@ -173,27 +179,20 @@ chown -R i2psvc /var/lib/i2p/
 echo "Done, now please restart the ProxyVM of this Template to finish the Setup"
 }
 
-if [ `id -u ` -ne 0 ]; then 
-
-    echo "This script must be run as root" 
-
-    exit 1 
-
-fi
 
 qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 if [ -e /usr/share/anon-gw-base-files/gateway ]; then
-    echo "Disclaimer \n"
+    disclaimer 
    
 fi
 #check in what kind of VM we're runnign
 if [ "$qubes_vm_type" = "TemplateVM" ]; then
-    echo "Disclaimer \n"
+    disclaimer
     # Display warning that TemplateVM is not connected to a Tor update proxy.
     if [ ! -e '/var/run/qubes-service/whonix-secure-proxy' ]; then
         /usr/lib/qubes-whonix/alert update /usr/lib/qubes-whonix/messages.yaml
     fi    
-    disclaimer
+    
     install_i2p
     
 fi

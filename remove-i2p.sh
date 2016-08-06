@@ -1,5 +1,13 @@
 #/bin/sh
 
+if [ `id -u ` -ne 0 ]; then 
+
+    echo "This script must be run as root" 
+
+    exit 1 
+
+fi
+
 TORCONF="
 'TransPort 127.0.0.1:9041'
 'DnsPort 127.0.0.1:54'"
@@ -102,7 +110,7 @@ if [ -e /usr/lib/qubes/bind-dirs.sh ] || [ -e /usr/lib/qubes/init/bind-dirs.sh ]
 
 else
     for binds in $OLDBINDS; do
-    sed -i /$binds/d /usr/lib/qubes-whonix/bind-directories
+        sed -i /$binds/d /usr/lib/qubes-whonix/bind-directories
     done
 	echo "OK"
 
