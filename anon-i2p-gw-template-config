@@ -46,12 +46,16 @@ install_i2p() {
 echo "Installing I2P "
 echo "Adding the I2P Repository to the Apt list"
 #Add I2P Repo
-cat  > /etc/apt/sources.list.d/i2p.list << EOF
+if [ ! -e /etc/apt/sources.list.d/i2p.list ]
+    echo "Found the I2P Repo"
+    echo "OK" 
+else     
+    cat  > /etc/apt/sources.list.d/i2p.list << EOF
 deb http://deb.i2p2.no/ stable main
 #deb-src http://deb.i2p2.no/ stable main
 EOF
 echo "OK"
-
+fi
 sleep 1
 echo "Adding the I2P Repo key if not present "
 # Add the I2P repo key if apt doesn't know about it yet
@@ -103,7 +107,7 @@ echo "[Adding I2P Firewall Config] OK" >> $LOGPATH
 }
 
 check_qubes_version(){
-	if [ -e /usr/lib/qubes/bind-dirs.sh ] || [ -e /usr/lib/qubes/init/bind-dirs.sh ] ; then
+	if [ -e /usr/lib/qubes/bind-dirs.sh ] && [ -e /usr/lib/qubes/init/bind-dirs.sh ] ; then
 		setup_persistent_path_qubes32
 		echo "[Adding Peristent Path Config] OK" >> $LOGPATH
 

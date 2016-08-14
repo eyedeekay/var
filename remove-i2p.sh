@@ -78,13 +78,19 @@ clear
 echo "OK"
 
 echo "Removing the I2P Repository from the Apt list"
-rm /etc/apt/sources.list.d/i2p.list
-echo "OK"
+if [ -e /etc/apt/sources.list/i2p.list ];then
+    rm /etc/apt/sources.list.d/i2p.list
+    echo "OK"
+else 
+    echo "i2p.list not found"
 
 echo "Removing I2P Key"
-apt-key del 0x67ECE5605BCF1346
-echo "OK"
-
+if apt-key fingerprint | fgrep -q "7840 E761 0F28 B904 7535  49D7 67EC E560 5BCF 1346" > /dev/null 2>&1; then
+    apt-key del 0x67ECE5605BCF1346
+    echo "OK"
+else
+    echo "I2P Keys not found"
+    
 echo "Removing all I2P scripts"
 for file in $FILES; do
     if [ -e $file];then
@@ -95,14 +101,14 @@ for file in $FILES; do
 done
 echo "OK"
 
-echo "Removing Tor Config changes"
-for config in $TORCONF; do
-    sed -i /$config/d /etc/tor/torrc
-done
-echo "OK"
+#echo "Removing Tor Config changes"
+#for config in $TORCONF; do
+#    sed -i /$config/d /etc/tor/torrc
+#done
+#echo "OK"
 
 echo "Removing I2P Path from Persistent dirs"
-if [ -e /usr/lib/qubes/bind-dirs.sh ] || [ -e /usr/lib/qubes/init/bind-dirs.sh ] ; then
+if [ -e /usr/lib/qubes/bind-dirs.sh ] && [ -e /usr/lib/qubes/init/bind-dirs.sh ] ; then
     for binds in $NEWBINDS; do
 	    sed -i /$binds/d /usr/lib/qubes-bind-dirs.d/50_qubes-whonix.conf
     done	
@@ -130,6 +136,7 @@ if [ "$qubes_vm_type" = "TemplateVM" ]; then
         disclaimer  
         remove_i2p_gw
     elif [-e /usr/share/anon-ws-base-files/worksation ]; then
+        disclaimer
         remove_i2p_ws 
     fi
     
