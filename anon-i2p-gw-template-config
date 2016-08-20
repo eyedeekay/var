@@ -16,7 +16,7 @@ disclaimer() {
 echo "Disclaimer \n"
 echo "This script will makes persistent changes to Whonix "
 echo "It could degrease your Anonymity or make Whonix Leak Information"
-echo "If you rely on strong Anonymity and are exposed to a large Advesary"
+echo "When you rely on strong Anonymity and are exposed to a large Advesary"
 echo "!!If any of that's the case Please dont use this !!"
 echo "The Author takes no Responsibility if anything breaks \n"
 echo "The following changes will be made:\n"
@@ -29,7 +29,7 @@ echo "--Enabling Whonix-Gateways Own Traffic Transparent Proxy feature \n"
 
 
 
-echo -n "Are you sure you wish to continue? (y/n)  " 
+echo -n "Are you sure you wish to continue? (Y/n)  " 
 
 read ans 
 case $ans in 
@@ -46,7 +46,7 @@ install_i2p() {
 echo "Installing I2P "
 echo "Adding the I2P Repository to the Apt list"
 #Add I2P Repo
-if [ ! -e /etc/apt/sources.list.d/i2p.list ]
+if [ ! -e /etc/apt/sources.list.d/i2p.list ];then
     echo "Found the I2P Repo"
     echo "OK" 
 else     

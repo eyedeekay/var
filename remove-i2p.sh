@@ -41,7 +41,9 @@ SOCKS_PORT_I2P_MTN=8998"
 
 FILES="
 /usr/bin/i2p-launcher
-/usr/share/icons/anon-icon-pack/i2p*
+/usr/share/icons/anon-icon-pack/i2p-con.png
+/usr/share/icons/anon-icon-pack/i2p-ready-png
+/usr/share/icons/anon-icon-pack/i2p-start.png
 /etc/qubes/suspend-post.d/30_i2p_start.sh
 /etc/qubes/suspend-pre.d/30_i2p_restart.sh
 /usr/lib/i2p/i2p.sh"
@@ -83,14 +85,14 @@ if [ -e /etc/apt/sources.list/i2p.list ];then
     echo "OK"
 else 
     echo "i2p.list not found"
-
+fi
 echo "Removing I2P Key"
 if apt-key fingerprint | fgrep -q "7840 E761 0F28 B904 7535  49D7 67EC E560 5BCF 1346" > /dev/null 2>&1; then
     apt-key del 0x67ECE5605BCF1346
     echo "OK"
 else
     echo "I2P Keys not found"
-    
+fi   
 echo "Removing all I2P scripts"
 for file in $FILES; do
     if [ -e $file];then
