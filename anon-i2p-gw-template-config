@@ -46,7 +46,7 @@ install_i2p() {
 echo "Installing I2P "
 echo "Adding the I2P Repository to the Apt list"
 #Add I2P Repo
-if [ ! -e /etc/apt/sources.list.d/i2p.list ];then
+if [ -e /etc/apt/sources.list.d/i2p.list ];then
     echo "Found the I2P Repo"
     echo "OK" 
 else     
