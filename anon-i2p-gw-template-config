@@ -11,6 +11,7 @@ fi
 set -e
 
 LOGPATH="/var/log/anon-i2p-config.log"
+I2PROUTER="/usr/bin/i2prouter"
 
 disclaimer() {
 echo "Disclaimer \n"
@@ -44,23 +45,25 @@ esac
 
 install_i2p() {
 echo "Installing I2P "
-echo "Adding the I2P Repository to the Apt list"
+
 #Add I2P Repo
 if [ -e /etc/apt/sources.list.d/i2p.list ];then
-    echo "Found the I2P Repo"
+    echo "Found the I2P Repository"
     echo "OK" 
 else     
+    echo "Adding the I2P Repository to the Apt list"
     cat  > /etc/apt/sources.list.d/i2p.list << EOF
 deb http://deb.i2p2.no/ stable main
 #deb-src http://deb.i2p2.no/ stable main
 EOF
-echo "OK"
+	echo "OK"
 fi
 sleep 1
-echo "Adding the I2P Repo key if not present "
+
 # Add the I2P repo key if apt doesn't know about it yet
 if ! apt-key fingerprint | fgrep -q "7840 E761 0F28 B904 7535  49D7 67EC E560 5BCF 1346" > /dev/null 2>&1; then
     if wget --quiet https://geti2p.net/_static/i2p-debian-repo.key.asc -O $TMPFILE; then
+        echo "Adding the I2P Repo key"
         apt-key add $TMPFILE
         rm -f $TMPFILE
         
@@ -70,9 +73,12 @@ if ! apt-key fingerprint | fgrep -q "7840 E761 0F28 B904 7535  49D7 67EC E560 5B
         apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0x67ECE5605BCF1346
         
     fi
+elif apt-key fingerprint | fgrep -q "7840 E761 0F28 B904 7535  49D7 67EC E560 5BCF 1346" > /dev/null 2>&1; then
+	echo "I2P Key found"
 fi
 echo "[I2P Key Added] OK" >> $LOGPATH 
 echo "OK"
+
 apt-get update
 apt-get install i2p i2p-keyring -y
 #TODO Decide if we should set predefined settings here
@@ -85,13 +91,14 @@ if [ ! -d /usr/lib/i2p/ ];then
 else
 	echo "found /usr/lib/i2p/"
 fi	
-mv i2p.sh /usr/lib/i2p/
-mv i2p-launcher /usr/bin/
-mv res/*.png /usr/share/icons/anon-icon-pack
-mv 30_i2p-start.sh /etc/qubes/suspend-post.d/
-mv 30_i2p-restart.sh /etc/qubes/suspend-pre.d/
+cp i2p.sh /usr/lib/i2p/
+cp i2p-launcher /usr/bin/
+cp res/*.png /usr/share/icons/anon-icon-pack
+cp 30_i2p-start.sh /etc/qubes/suspend-post.d/
+cp 30_i2p-restart.sh /etc/qubes/suspend-pre.d/
 echo "[Moving Scripts] OK" >> $LOGPATH 
-I2PROUTER="/usr/bin/i2prouter"
+
+
 # Install custom i2prouter stub scripts
 for script in ${I2PROUTER} ${I2PROUTER}-nowrapper; do
 	if [ ! -e $script ];then
@@ -134,8 +141,8 @@ else
     echo "Adding I2P's paths to Qubes Persistent Folders"
 #Add I2P's paths to Qubes Persistent Folders
 	cat >> "/usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf" << EOF
-	binds+=( '/etc/i2p' )
-	binds+=( '/var/lib/i2p/i2p-config/' )
+binds+=( '/etc/i2p' )
+binds+=( '/var/lib/i2p/i2p-config/' )
 EOF
 fi
 }

@@ -96,11 +96,18 @@ fi
 echo "Removing all I2P scripts"
 for file in $FILES; do
     if [ -e $file ];then
-            rm $file
+        rm $file
+        echo "$file deleted"
     else
-        echo $file "not found"
+        echo "$file not found"
     fi
 done
+if [ -d /usr/lib/i2p/ ];then
+	rmdir /usr/lib/i2p
+	echo "/usr/lib/i2p/ deleted"
+else
+	echo "/usr/lib/i2p/ not found"
+fi	
 echo "OK"
 
 #echo "Removing Tor Config changes"
