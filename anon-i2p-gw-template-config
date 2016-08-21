@@ -91,14 +91,18 @@ echo "[Moving Scripts] OK" >> $LOGPATH
 I2PROUTER="/usr/bin/i2prouter"
 # Install custom i2prouter stub scripts
 for script in ${I2PROUTER} ${I2PROUTER}-nowrapper; do
-    echo "Removing $script"
-    dpkg-divert --rename --add "${script}"
-    cat > "$script" << EOF
+	if [ ! -e $script ];then
+		echo "$script not found"
+	else	
+		echo "Removing $script"
+		dpkg-divert --rename --add "${script}"
+		cat > "$script" << EOF
 #!/bin/sh
 echo "This script is not used by Whonix.\n Use sudo i2p-launcher start"
 exit 0
 EOF
-    chmod 755 "$script"
+		chmod 755 "$script"
+	fi	
 done
 echo "[Removing I2PRouter Script] OK" >> $LOGPATH
 check_qubes_version
@@ -120,23 +124,32 @@ check_qubes_version(){
 }
 
 setup_persistent_path_qubes32(){
-	
-echo "Adding I2P's paths to Qubes Persistent Folders"
+if grep -Fxq "binds+=( '/etc/i2p' )" /usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf
+then
+    echo "Skipping Adding I2P's paths to Qubes Persistent Folders"
+else
+    echo "Adding I2P's paths to Qubes Persistent Folders"
 #Add I2P's paths to Qubes Persistent Folders
-cat >> "/usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf" << EOF
-binds+=( '/etc/i2p' )
-binds+=( '/var/lib/i2p/i2p-config/' )
+	cat >> "/usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf" << EOF
+	binds+=( '/etc/i2p' )
+	binds+=( '/var/lib/i2p/i2p-config/' )
 EOF
+fi
 }
 
 setup_persistent_path_qubes31(){
 #old path /usr/lib/qubes-whonix/bind-directories
 #Currently used method 
 #Add I2P's paths to Qubes Persistent Folders
-sed -i "70i \    '/rw/srv/whonix/etc/i2p:/etc/i2p'" /usr/lib/qubes-whonix/bind-directories
-sed -i "71i \    '/rw/srv/whonix/var/lib/i2p/i2p-config:/var/lib/i2p/i2p-config'" /usr/lib/qubes-whonix/bind-directories
-sed -i "72i \    '/rw/srv/whonix/usr/share/i2p:/usr/share/i2p'" /usr/lib/qubes-whonix/bind-directories
-echo "OK"
+if grep -Fxq "/rw/srv/whonix/etc/i2p:/etc/i2p" /usr/lib/qubes-whonix/bind-directories
+then
+    echo "Skipping Firewall Rules"
+else
+	sed -i "70i \    '/rw/srv/whonix/etc/i2p:/etc/i2p'" /usr/lib/qubes-whonix/bind-directories
+	sed -i "71i \    '/rw/srv/whonix/var/lib/i2p/i2p-config:/var/lib/i2p/i2p-config'" /usr/lib/qubes-whonix/bind-directories
+	sed -i "72i \    '/rw/srv/whonix/usr/share/i2p:/usr/share/i2p'" /usr/lib/qubes-whonix/bind-directories
+	echo "OK"
+fi	
 }
 
 setup_firewall_rules(){
@@ -191,7 +204,7 @@ if [ -e /usr/share/anon-gw-base-files/gateway ]; then
 fi
 #check in what kind of VM we're runnign
 if [ "$qubes_vm_type" = "TemplateVM" ]; then
-    disclaimer
+    sleep 1
     # Display warning that TemplateVM is not connected to a Tor update proxy.
     if [ ! -e '/var/run/qubes-service/whonix-secure-proxy' ]; then
         /usr/lib/qubes-whonix/alert update /usr/lib/qubes-whonix/messages.yaml
