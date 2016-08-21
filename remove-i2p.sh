@@ -42,7 +42,7 @@ SOCKS_PORT_I2P_MTN=8998"
 FILES="
 /usr/bin/i2p-launcher
 /usr/share/icons/anon-icon-pack/i2p-con.png
-/usr/share/icons/anon-icon-pack/i2p-ready-png
+/usr/share/icons/anon-icon-pack/i2p-ready.png
 /usr/share/icons/anon-icon-pack/i2p-start.png
 /etc/qubes/suspend-post.d/30_i2p_start.sh
 /etc/qubes/suspend-pre.d/30_i2p_restart.sh
@@ -80,7 +80,7 @@ clear
 echo "OK"
 
 echo "Removing the I2P Repository from the Apt list"
-if [ -e /etc/apt/sources.list/i2p.list ];then
+if [ -e /etc/apt/sources.list.d/i2p.list ];then
     rm /etc/apt/sources.list.d/i2p.list
     echo "OK"
 else 
@@ -95,8 +95,8 @@ else
 fi   
 echo "Removing all I2P scripts"
 for file in $FILES; do
-    if [ -e $file];then
-        rm $file
+    if [ -e $file ];then
+            rm $file
     else
         echo $file "not found"
     fi
@@ -112,7 +112,7 @@ echo "OK"
 echo "Removing I2P Path from Persistent dirs"
 if [ -e /usr/lib/qubes/bind-dirs.sh ] && [ -e /usr/lib/qubes/init/bind-dirs.sh ] ; then
     for binds in $NEWBINDS; do
-	    sed -i /$binds/d /usr/lib/qubes-bind-dirs.d/50_qubes-whonix.conf
+	    sed -i /$binds/d /usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf
     done	
 	echo "OK"
 
@@ -124,9 +124,13 @@ else
 
 fi	
 echo "Removing I2P Firewall Rules"
-for conf in $FWCONFIG; do
-	sed -i /$conf/d test
-done
+if [ -e /etc/whonix_firewall.d/50_user.conf ];then
+    for conf in $FWCONFIG; do
+	    sed -i /$conf/d /etc/whonix_firewall.d/50_user.conf
+    done
+else
+    echo "Whonix Firewall User Config not found"
+fi
 }
 echo "OK"
 qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
