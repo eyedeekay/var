@@ -49,7 +49,7 @@ I2P_TUNNEL_BUILD_TIMEOUT=300
 
 startup_failure() {
 	#Ugly but untill a better solution is found , it works 
-    kdialog --sorry "I2P failed to start \nSomething went wrong when I2P was starting. Check the logs in /var/log/i2p for more information."
+    notify-send -t 5000 "I2P failed to start \nSomething went wrong when I2P was starting. Check the logs in /var/log/i2p for more information."
     service i2p dump # generate a thread dump
     sleep 5 # Give thread dump ample time to complete
     systemctl stop i2p # clean up, just in case
