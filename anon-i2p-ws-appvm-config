@@ -4,15 +4,7 @@ LOGPATH="/var/log/anon-i2p-config.log"
 
 qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 
-#check in what kind of VM we're runnign
-if [ "$qubes_vm_type" = "AppVM" ]; then
-    sleep 1
-    if [ -e /usr/share/anon-ws-base-files/workstation ]; then
-        config_foxyproxy
-        
-    fi
-    
-fi
+
 
 
 
@@ -29,3 +21,12 @@ cp /usr/share/usability-misc/tbb-foxyproxy/foxyproxy.xml /home/user/.tb/tor-brow
 echo "OK"
 echo "[Foxyproxy configured] OK" >> $LOGPATH
 }
+#check in what kind of VM we're runnign
+if [ "$qubes_vm_type" = "AppVM" ]; then
+    sleep 1
+    if [ -e /usr/share/anon-ws-base-files/workstation ]; then
+        config_foxyproxy
+        
+    fi
+    
+fi
