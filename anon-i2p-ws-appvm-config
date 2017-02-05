@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOGPATH="/var/log/anon-i2p-config.log"
+
 
 qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 
@@ -19,7 +19,6 @@ echo "\nAdding custom Foxyproxy Rules to TorBrowser"
 ln -s /usr/share/xul-ext/foxyproxy-standard/ /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/extensions/foxyproxy@eric.h.jung
 cp /usr/share/usability-misc/tbb-foxyproxy/foxyproxy.xml /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/
 echo "OK"
-echo "[Foxyproxy configured] OK" >> $LOGPATH
 }
 #check in what kind of VM we're runnign
 if [ "$qubes_vm_type" = "AppVM" ]; then
