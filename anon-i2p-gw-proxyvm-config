@@ -45,6 +45,11 @@ case $ans in
         ;; 
 esac 
 }
+#launching i2p to copy user config files
+i2p-launcher start &
+sleep 5
+i2p-launcher stop
+
 config_i2p(){
 echo "Configuring I2P"
 
@@ -97,13 +102,6 @@ router.isHidden=true
 router.sharePercentage=0
 router.updateDisabled=true
 time.disabled=true
-time.sntpServerList=127.0.0.1
-router.reseedProxy.authEnable=false
-router.reseedProxyEnable=true
-router.reseedProxyHost=127.0.0.1
-router.reseedProxyPort=9050
-router.reseedSSLDisable=true 
-router.reseedSSLRequired=false
 i2np.upnp.enable=false
 EOF
 
