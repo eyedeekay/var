@@ -14,7 +14,9 @@ As soon as everything works  I will delete this repo and create a proper one wit
 the (cloned) Whonix GW Template.
 Start the ProxyVM (sys-i2p) and run `anon-i2p-gw-proxyvm-config` as root , reboot the ProxyVM (sys-i2p)
 - Download the Repo to your (cloned) Whonix WS Template and run `anon-i2p-ws-template-config`
-- Now you can run `sudo i2p-launcher start &` on your ProxyVM (sys-i2p) to start the I2P Router 
+- Create a AppVM (eg. anon-i2p) and run `anon-i2p-ws-appvm-config` from the previusly Cloned Repo folder
+- Now you can run `sudo i2p-launcher start &` on your ProxyVM (sys-i2p) to start the I2P Router
+- Your AppVM (anon-i2p) Torbrowser (should) now forward any .i2p domain to i2p
 
 
 `sudo tail -f /var/log/i2p/wrapper.log` for debuging
