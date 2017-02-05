@@ -78,6 +78,7 @@ wait_until_i2p_builds_a_tunnel() {
     wait_until ${I2P_TUNNEL_BUILD_TIMEOUT} i2p_built_a_tunnel
     # static sleep to work around upstream bug.
     sleep 240
+    notify-send -i /usr/share/icons/anon-icon-pack/i2p-con.png -t 5000 "I2P build a tunnel" "I2P has successfully built a tunnel"
 }
 
 notify_bootstrap_success() {
@@ -93,7 +94,8 @@ case "${1}" in
             systemctl stop i2p
         fi
 
-        systemctl start i2p
+        systemctl start i2p 
+        tail /var/log/i2p/wrapper.log
         notify-send -i /usr/share/icons/anon-icon-pack/i2p-start.png -t 4000 "I2P's router is starting" 
         wait_until_i2p_router_console_is_ready || startup_failure
         notify_router_console_success
