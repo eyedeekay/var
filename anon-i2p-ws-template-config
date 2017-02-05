@@ -37,15 +37,9 @@ esac
 }
 config_ws(){
 echo "Installing Foxyproxy"
+
 apt-get update && apt-get install xul-ext-foxyproxy-standard
-
-#create symlink and copy custom foxyproxy rules 
-echo "\nAdding custom Foxyproxy Rules to TorBrowser" 
-ln -s /usr/share/xul-ext/foxyproxy-standard/ /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/extensions/foxyproxy@eric.h.jung
-cp /usr/share/usability-misc/tbb-foxyproxy/foxyproxy.xml /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/
-echo "OK"
-
-
+echo "[Installed Foxyproxy] OK" >> $LOGPATH
 #Add Socat Port forwarding config
 if [ -d /etc/anon-ws-disable-stacked-tor.d/ ]; then
     echo "Adding I2P Ports to the Socat User config"
@@ -57,6 +51,7 @@ for i2p_port in $I2P_PORTS; do
 done
 EOF
     echo "OK"
+    echo "[Port forwarding configured] OK" >> $LOGPATH
 elif [ ! -d /etc/anon-ws-disable-stacked-tor.d/ ]; then
     echo "Using old Whonix <13 method"
     #Move i2p socat forwarding script and enable it
@@ -64,9 +59,10 @@ elif [ ! -d /etc/anon-ws-disable-stacked-tor.d/ ]; then
     chmod +x /etc/init.d/i2p-whonix-socat-ws
     update-rc.d i2p-whonix-socat-ws defaults
     echo "OK"
+    echo "[Port forwarding configured] OK" >> $LOGPATH
 else
-    echo " Something went Wrong"
-    
+    echo "Something went Wrong"
+    echo "[Port forwarding configured] FAILED" >> $LOGPATH
     
 fi
 }

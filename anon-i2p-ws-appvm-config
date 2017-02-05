@@ -1,0 +1,31 @@
+#!/bin/bash
+
+LOGPATH="/var/log/anon-i2p-config.log"
+
+qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
+
+#check in what kind of VM we're runnign
+if [ "$qubes_vm_type" = "AppVM" ]; then
+    sleep 1
+    if [ -e /usr/share/anon-ws-base-files/workstation ]; then
+        config_foxyproxy
+        
+    fi
+    
+fi
+
+
+
+config_foxyproxy(){
+echo "Configuring Foxyproxy"
+
+#disable Addon Signature verification 
+echo 'pref("xpinstall.signatures.required", false);' > /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/preferences/addons_unsigned_allow.js
+
+#create symlink and copy custom foxyproxy rules 
+echo "\nAdding custom Foxyproxy Rules to TorBrowser" 
+ln -s /usr/share/xul-ext/foxyproxy-standard/ /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/extensions/foxyproxy@eric.h.jung
+cp /usr/share/usability-misc/tbb-foxyproxy/foxyproxy.xml /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/
+echo "OK"
+echo "[Foxyproxy configured] OK" >> $LOGPATH
+}
