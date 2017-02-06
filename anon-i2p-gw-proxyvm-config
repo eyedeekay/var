@@ -45,14 +45,14 @@ case $ans in
         ;; 
 esac 
 }
-#launching i2p to copy user config files
-i2p-launcher start &
-sleep 5
-i2p-launcher stop
+
 
 config_i2p(){
 echo "Configuring I2P"
-
+#launching i2p to copy user config files
+systemctl start i2p
+sleep 5
+systemctl stop i2p
 
 echo "Changing I2Ps Default Router Config to our needs"
 # This must be set in order for the i2p init script to work
