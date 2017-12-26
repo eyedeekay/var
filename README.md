@@ -10,9 +10,9 @@ As soon as everything works  I will delete this repo and create a proper one wit
 - Clone your existing Whonix Gateway and Worksation Templates
 - Download the Repo to your (cloned) Whonix GW Template
 - Run `anon-i2p-gw-template-config` as root in the (cloned) Whonix GW template
-- Wait until it finishes after that power the Template down and create a new ProxyVM (eg. sys-i2p) from 
+- Wait until it finishes after that power down the TemplateVM and create a new ProxyVM (eg. sys-i2p) from 
 the (cloned) Whonix GW Template.
-Start the ProxyVM (sys-i2p) and run `anon-i2p-gw-proxyvm-config` as root , reboot the ProxyVM (sys-i2p)
+- Start the ProxyVM (sys-i2p) and run `anon-i2p-gw-proxyvm-config` as root , reboot the ProxyVM (sys-i2p)
 - Download the Repo to your (cloned) Whonix WS Template and run `anon-i2p-ws-template-config`
 - Create a AppVM (eg. anon-i2p) and run `anon-i2p-ws-appvm-config` from the previusly Cloned Repo folder
 - Now you can run `sudo i2p-launcher start &` on your ProxyVM (sys-i2p) to start the I2P Router
