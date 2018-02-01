@@ -2,9 +2,21 @@
 #### This Repo contains various files related to my Whonix-I2P Development/Porting
 # Disclaimer!
 This Repo is just a dumping ground for all sort of files, they may not work or/and could break your system !!
+### ToDo:
+- fix reseed using http://trac.i2p2.i2p/ticket/1130
+- add proper logs and error handling
+- fix tunnel build notification
+- add autostart
+- rework folders and script
+- fix wrong foxyproxy version and/or replace it
+- fix permissions
+- find a way to access Plugin folder from Workstation
+- ...
+- create debian pckg
+- msg whonix and find testers
 As soon as everything works  I will delete this repo and create a proper one with instructions...
 #### Note :
-###			Currently it's not working , Bug reports/PR's welcome
+###			Currently it's working but still has some Issues, Bug reports/PR's welcome
 ## Testing/Setup
 ### [Qubes OS only]
 - Clone your existing Whonix Gateway and Worksation Templates

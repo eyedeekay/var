@@ -37,9 +37,10 @@ esac
 }
 config_ws(){
 echo "Installing Foxyproxy"
+#This isn't working atm because FF changed the Addons and TB isn't Updated to support them
 
-apt-get update && apt-get install xul-ext-foxyproxy-standard
-echo "[Installed Foxyproxy] OK" >> $LOGPATH
+#apt-get update && apt-get install xul-ext-foxyproxy-standard
+#echo "[Installed Foxyproxy] OK" >> $LOGPATH
 #Add Socat Port forwarding config
 if [ -d /etc/anon-ws-disable-stacked-tor.d/ ]; then
     echo "Adding I2P Ports to the Socat User config"

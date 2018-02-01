@@ -11,8 +11,8 @@ qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 config_foxyproxy(){
 echo "Configuring Foxyproxy"
 
-#disable Addon Signature verification 
-echo 'pref("xpinstall.signatures.required", false);' > /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/preferences/addons_unsigned_allow.js
+disable Addon Signature verification 
+#echo 'pref("xpinstall.signatures.required", false);' > /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Browser/profile.default/preferences/addons_unsigned_allow.js
 
 #create symlink and copy custom foxyproxy rules 
 echo "\nAdding custom Foxyproxy Rules to TorBrowser" 
@@ -24,8 +24,8 @@ echo "OK"
 if [ "$qubes_vm_type" = "AppVM" ]; then
     sleep 1
     if [ -e /usr/share/anon-ws-base-files/workstation ]; then
-        config_foxyproxy
-        
+        #config_foxyproxy
+        echo "Not working atm"
     fi
     
 fi

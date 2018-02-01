@@ -21,7 +21,10 @@ FILES="
 /etc/qubes/suspend-post.d/30_i2p_start.sh
 /etc/qubes/suspend-pre.d/30_i2p_restart.sh
 /usr/lib/i2p/i2p.sh"
+
+
 disclaimer(){
+
 echo "Disclaimer \n"
 echo "This script will makes persistent changes to Whonix "
 echo "It could degrease your Anonymity or make Whonix Leak Information"
@@ -48,15 +51,12 @@ esac
 
 
 config_i2p(){
-echo "Configuring I2P"
+
+echo "Configuring I2P" 2>&1 | tee -a $LOGPATH
 #launching i2p to copy user config files
 systemctl start i2p
 sleep 5
 systemctl stop i2p
-
-echo "Changing I2Ps Default Router Config to our needs"
-# This must be set in order for the i2p init script to work
-sed -i 's/^RUN_DAEMON=.*$/RUN_DAEMON="true"/' /etc/default/i2p
 
 # Remove the "i2prouter" script, its man page, and its apparmor profile
 #rm /etc/apparmor.d/usr.bin.i2prouter /usr/share/man/man1/i2prouter.1.gz
@@ -77,7 +77,7 @@ sed -i 's|^clientApp\.0\.args=7657\s\+::1,127\.0\.0\.1|clientApp.0.args=7657 127
 # Disable IPv6 in the wrapper
 sed -i 's|^.*\(wrapper\.java\.additional\.5=-Djava\.net\.preferIPv4Stack=\).*|\1true|' "$WRAPPER"
 sed -i 's|^.*\(wrapper\.java\.additional\.6=-Djava\.net\.preferIPv6Addresses=\).*|\1false|' "$WRAPPER"
-echo "Changing I2Ps listening IP"
+echo "Changing I2Ps listening IP" 2>&1 | tee -a $LOGPATH
 #Change the Listening IP from Localhost to the Whonix-Gateway Ip
 sed -i "s/\(.*interface=\).*/\1$GATEWAYIP/g;s/\(.*targetHost=\).*/\1$GATEWAYIP/g" "$I2P/i2ptunnel.config"
 sed -i "s/127\.0\.0\.1/$GATEWAYIP/g" "$I2P/clients.config"
@@ -87,21 +87,11 @@ echo "susimail.host=$GATEWAYIP" >> /usr/share/i2p/susimail.config
 echo "OK"
 
 # Tails/Whonix specific router configs:
-# * IPv6: Disabled
-# * HiddenMode: Enabled
 # * In-I2P Network Updates: Disabled
-# * Inbound connections: Disabled (setting is "i2cp.ntcp.autoip")
-# * Disable external NTP queries and GeoIP
-# * Reseed via Tor
 # * Disable upnp
 cat > "$I2P/router.config" << EOF
 # NOTE: This I2P config file must use UTF-8 encoding
-i2np.ntcp.ipv6=false
-i2np.udp.ipv6=false
-router.isHidden=true
-router.sharePercentage=0
 router.updateDisabled=true
-time.disabled=true
 i2np.upnp.enable=false
 EOF
 
@@ -109,13 +99,13 @@ cat > "$I2P/susimail.config" << EOF
 susimail.pop3.leave.on.server=true
 EOF
 
-# enforce apparmor
+# enforce apparmor , disabled atm
 #echo Setting the I2P apparmor profile to enforce mode
 #sed  -i -re 's|flags=\(complain\)||' /etc/apparmor.d/system_i2p
 #echo "OK"
-echo "[Adding I2P Firewall Config] OK" >> $LOGPATH
 
-#changing the nameserver to the connected firewallVM to let I2P Bootstrap 
+#obsolete obce 0.9.33 is released | changing the nameserver to the connected firewallVM to let I2P Bootstrap 
+
 sed -i "s/nameserver 127.0.0.1/nameserver $(qubesdb-read /qubes-gateway)/g" /etc/resolv.conf
 echo "[Changed resolve.conf] OK" >> $LOGPATH
 #reset the permissions
