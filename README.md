@@ -19,7 +19,7 @@ As soon as everything works  I will delete this repo and create a proper one wit
 ###			Currently it's working but still has some Issues, Bug reports/PR's welcome
 ## Testing/Setup
 ### [Qubes OS only]
-- Clone your existing Whonix Gateway and Worksation Templates
+- Clone your existing Whonix Gateway and Workstaion Templates
 - Download the Repo to your (cloned) Whonix GW Template
 - Run `anon-i2p-gw-template-config` as root in the (cloned) Whonix GW template
 - Wait until it finishes after that power down the TemplateVM and create a new ProxyVM (eg. sys-i2p) from 
