@@ -28,8 +28,7 @@ if [ -d /home/user/.tb/tor-browser/Browser/TorBrowser/ ];then
             echo "Foxyproxy not found, install it via the addons site"
 else
 	echo "TBB not found starting Whonix Tor Downloader"
-        update-torbrowser
-        yes
+        update-torbrowser --noask
         if [ -d /home/user/.tb/tor-browser/Browser/TorBrowser/ ];then
             config_foxyproxy
         else
