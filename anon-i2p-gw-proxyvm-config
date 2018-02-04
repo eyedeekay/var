@@ -93,10 +93,15 @@ cat > "$I2P/router.config" << EOF
 # NOTE: This I2P config file must use UTF-8 encoding
 router.updateDisabled=true
 i2np.upnp.enable=false
+router.reseedProxy.authEnable=false
+router.reseedProxyEnable=false
+router.reseedSSLDisable=false
+router.reseedSSLProxy.authEnable=false
 router.reseedSSLProxyEnable=true
 router.reseedSSLProxyHost=127.0.0.1
 router.reseedSSLProxyPort=9050
 router.reseedSSLProxyType=SOCKS5
+router.reseedSSLRequired=false
 EOF
 
 cat > "$I2P/susimail.config" << EOF
