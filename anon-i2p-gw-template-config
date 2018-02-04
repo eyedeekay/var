@@ -26,7 +26,7 @@ echo "--Update the system's packages"
 echo "--Install I2P, custom Init.d script"
 echo "--Configure Firewall Settings to Only Allow I2P to connect to the Clearnet"
 echo "--Make I2P's directories persistent "
-echo "--Enabling Whonix-Gateways Own Traffic Transparent Proxy feature \n"
+echo "--Install Iceweasel \n"
 
 
 
@@ -81,7 +81,7 @@ echo "[I2P Key Added] OK" 2>&1 | tee -a $LOGPATH
 echo "OK"
 
 apt-get update
-apt-get install i2p i2p-keyring -y
+apt-get install i2p i2p-keyring iceweasel -y
 #TODO Decide if we should set predefined settings here
 #echo "i2p i2p/daemon boolean true" | debconf-set-selections
 
