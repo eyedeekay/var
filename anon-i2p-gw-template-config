@@ -139,12 +139,12 @@ if grep -Fxq "binds+=( '/etc/i2p' )" /usr/lib/qubes-bind-dirs.d/40_qubes-whonix.
 then
     echo "Skipping Adding I2P's paths to Qubes Persistent Folders" 2>&1 | tee -a $LOGPATH
 else
-    echo "Adding I2P's paths to Qubes Persistent Folders" 2>&1 | tee -a $LOGPATH
-#Add I2P's paths to Qubes Persistent Folders
-	cat >> "/usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf" << EOF
-binds+=( '/etc/i2p' )
-binds+=( '/var/lib/i2p/i2p-config/' )
-EOF
+	echo "Adding I2P's paths to Qubes Persistent Folders" 2>&1 | tee -a $LOGPATH
+	#Add I2P's paths to Qubes Persistent Folders
+
+	sed -i "$ a binds+=( '/etc/i2p' )" /usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf
+	sed -i "$ a binds+=( '/var/lib/i2p/i2p-config/' )" /usr/lib/qubes-bind-dirs.d/40_qubes-whonix.conf
+
 fi
 }
 
