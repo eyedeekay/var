@@ -218,7 +218,9 @@ if [ "$qubes_vm_type" = "TemplateVM" ]; then
     if [ ! -e '/var/run/qubes-service/whonix-secure-proxy' ]; then
         /usr/lib/qubes-whonix/alert update /usr/lib/qubes-whonix/messages.yaml
     fi    
-    
-    install_i2p
-    
+    if [ -e /usr/share/anon-gw-base-files/gateway ]; then
+		install_i2p
+    else
+		echo "Wrong VM"
+    fi
 fi

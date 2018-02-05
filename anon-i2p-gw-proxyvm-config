@@ -89,7 +89,7 @@ echo "OK"
 # Tails/Whonix specific router configs:
 # * In-I2P Network Updates: Disabled
 # * Disable upnp
-cat > "$I2P/router.config" << EOF
+cat >> "$I2P/router.config" << EOF
 # NOTE: This I2P config file must use UTF-8 encoding
 router.updateDisabled=true
 i2np.upnp.enable=false
@@ -104,7 +104,7 @@ router.reseedSSLProxyType=SOCKS5
 router.reseedSSLRequired=false
 EOF
 
-cat >> "$I2P/susimail.config" << EOF
+cat > "$I2P/susimail.config" << EOF
 susimail.pop3.leave.on.server=true
 EOF
 
@@ -132,6 +132,8 @@ if [ "$qubes_vm_type" = "ProxyVM" ]; then
     if [ -e /usr/share/anon-gw-base-files/gateway ]; then
         disclaimer
         config_i2p
+    else
+		echo "Wrong VM"    
     fi
 
     

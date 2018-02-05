@@ -35,14 +35,23 @@ case $ans in
         ;; 
 esac 
 }
-config_ws(){
-echo "Installing Foxyproxy"
+setup_proxy(){
+#echo "Installing Foxyproxy"
 #This isn't working atm because FF changed the Addons and TB isn't Updated to support them
 
 #apt-get update && apt-get install xul-ext-foxyproxy-standard
 #echo "[Installed Foxyproxy] OK" >> $LOGPATH
+	
+#Add more proxy options (privoxy,transi2p...)	
+}
+config_ws(){
+
 #Add Socat Port forwarding config
 if [ -d /etc/anon-ws-disable-stacked-tor.d/ ]; then
+	if grep -Fxq "I2P_PORTS" /etc/anon-ws-disable-stacked-tor.d/50_user.conf
+then
+    echo "Rules found, skipping..." 2>&1 | tee -a $LOGPATH
+else
     echo "Adding I2P Ports to the Socat User config"
     cat >> "/etc/anon-ws-disable-stacked-tor.d/50_user.conf" << EOF
 I2P_PORTS="2827 3456 4444 4445 6668 7622 7650 7651 7654 7656 7658 7659 7660 7661 7662 8998"
@@ -72,9 +81,11 @@ qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 #check in what kind of VM we're runnign
 if [ "$qubes_vm_type" = "TemplateVM" ]; then
     disclaimer
-    if [ -e /usr/share/anon-ws-base-files/workstation ]; then
-        config_ws
-        
+    if [ -e /usr/share/anon-gw-base-files/gateway ]; then
+		config_ws
+		setup_proxy
+    else
+		echo "Wrong VM"
     fi
     
 fi
