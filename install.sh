@@ -13,7 +13,6 @@ qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 
 #check in what kind of VM we're runnign
 if [ "$qubes_vm_type" = "TemplateVM" ]; then
-    disclaimer
     if [ -e /usr/share/anon-gw-base-files/gateway ]; then
         echo "Running Gateway Template Config script..."
         ./anon-i2p-gw-template-config
