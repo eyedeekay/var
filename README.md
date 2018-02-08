@@ -16,7 +16,7 @@ This Repo is just a dumping ground for all sort of files, they may not work or/a
 - msg whonix and find testers
 As soon as everything works  I will delete this repo and create a proper one with instructions...
 #### Note :
-###			Currently it's working but still has some Issues, Bug reports/PR's welcome
+###			Currently it's NOT working but still has some Issues, Bug reports/PR's welcome
 ## Testing/Setup
 ### [Qubes OS only]
 - Clone your existing Whonix Gateway and Workstaion Templates
