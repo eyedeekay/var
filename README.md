@@ -16,17 +16,17 @@ This Repo is just a dumping ground for all sort of files, they may not work or/a
 - msg whonix and find testers
 As soon as everything works  I will delete this repo and create a proper one with instructions...
 #### Note :
-###			Currently it's NOT working but still has some Issues, Bug reports/PR's welcome
+###			Currently it's NOT working , Bug reports/PR's welcome
 ## Testing/Setup
 ### [Qubes OS only]
 - Clone your existing Whonix Gateway and Workstaion Templates
 - Download the Repo to your (cloned) Whonix GW Template
-- Run `anon-i2p-gw-template-config` as root in the (cloned) Whonix GW template
+- Run `install.sh` as root in the (cloned) Whonix GW template
 - Wait until it finishes after that power down the TemplateVM and create a new ProxyVM (eg. sys-i2p) from 
 the (cloned) Whonix GW Template.
-- Start the ProxyVM (sys-i2p) and run `anon-i2p-gw-proxyvm-config` as root , reboot the ProxyVM (sys-i2p)
-- Download the Repo to your (cloned) Whonix WS Template and run `anon-i2p-ws-template-config`
-- Create a AppVM (eg. anon-i2p) and run `anon-i2p-ws-appvm-config` from the previusly Cloned Repo folder
+- Start the ProxyVM (sys-i2p) and run `install.sh` as root , reboot the ProxyVM (sys-i2p)
+- Download the Repo to your (cloned) Whonix WS Template and run `install.sh`
+- Create a AppVM (eg. anon-i2p) and run `install.sh` from the previusly Cloned Repo folder
 - Now you can run `sudo i2p-launcher start &` on your ProxyVM (sys-i2p) to start the I2P Router
 - Your AppVM (anon-i2p) Torbrowser (should) now forward any .i2p domain to i2p
 
