@@ -19,7 +19,6 @@ if [ "$qubes_vm_type" = "TemplateVM" ]; then
     elif [ -e /usr/share/anon-ws-base-files/workstation ]; then
         echo "Running Workstation Template Config script..."
         ./anon-i2p-ws-template-config
-
     else 
         echo "ERROR, couldn't find Whonix files " 
     fi
@@ -29,10 +28,8 @@ elif [ "$qubes_vm_type" = "ProxyVM"];then
     else    
         echo "ERROR, couldn't find Whonix files "     
 elif [ "$qubes_vm_type" = "AppVM"; then
-          
-    echo "Running Workstation AppVM Config script..."
-    
     if [ -e /usr/share/anon-ws-base-files/workstation ]; then
+        echo "Running Workstation AppVM Config script..."
         ./anon-i2p-ws-appvm-config
     else    
         echo "ERROR, couldn't find Whonix files "         
