@@ -37,7 +37,7 @@ esac
 }
 setup_proxy(){
 #echo "Installing Foxyproxy"
-#This isn't working atm because FF changed the Addons and TB isn't Updated to support them
+ echo "This isn't working atm because FF changed the Addons and TB isn't Updated to support them"
 
 #apt-get update && apt-get install xul-ext-foxyproxy-standard
 #echo "[Installed Foxyproxy] OK" >> $LOGPATH
