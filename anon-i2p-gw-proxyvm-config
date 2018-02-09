@@ -113,10 +113,6 @@ EOF
 #sed  -i -re 's|flags=\(complain\)||' /etc/apparmor.d/system_i2p
 #echo "OK"
 
-#obsolete obce 0.9.33 is released | changing the nameserver to the connected firewallVM to let I2P Bootstrap 
-
-sed -i "s/nameserver 127.0.0.1/nameserver $(qubesdb-read /qubes-gateway)/g" /etc/resolv.conf
-echo "[Changed resolve.conf] OK" >> $LOGPATH
 #reset the permissions
 chown -R i2psvc /usr/share/i2p/ 
 chown -R i2psvc /var/lib/i2p/
