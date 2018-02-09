@@ -83,7 +83,7 @@ if [ "$qubes_vm_type" = "TemplateVM" ]; then
     disclaimer
     if [ -e /usr/share/anon-gw-base-files/gateway ]; then
 		config_ws
-		setup_proxy
+		#setup_proxy
     else
 		echo "Wrong VM"
     fi
