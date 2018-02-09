@@ -66,7 +66,7 @@ wait_until_i2p_has_bootstrapped() {
 
 notify_router_console_success() {
     notify-send -i /usr/share/icons/anon-icon-pack/i2p-con.png -t 5000 "I2P's router console is ready" "You can now access I2P's router console"
-
+    iceweasel 127.0.0.1:7657
 }
 
 bootstrap_failure() {
