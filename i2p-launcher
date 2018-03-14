@@ -45,11 +45,11 @@ I2P_BOOTSTRAP_TIMEOUT=210
 # After the router infos (RIs) are downloaded from the reseed servers
 # it can take 3-5 minutes for a tunnel to be built, e.g.
 # once we get to this point I2P should be ready to be used.
-I2P_TUNNEL_BUILD_TIMEOUT=300
+I2P_TUNNEL_BUILD_TIMEOUT=450
 
 startup_failure() {
 	#Ugly but untill a better solution is found , it works 
-    notify-send -t 5000 "I2P failed to start \nSomething went wrong when I2P was starting. Check the logs in /var/log/i2p for more information."
+    notify-send -t 5000 "I2P failed to start \nSomething went wrong when I2P was starting. Check the logs in /var/log/i2p/ for more information."
     service i2p dump # generate a thread dump
     sleep 5 # Give thread dump ample time to complete
     systemctl stop i2p # clean up, just in case
@@ -62,11 +62,13 @@ wait_until_i2p_router_console_is_ready() {
 
 wait_until_i2p_has_bootstrapped() {
     wait_until ${I2P_BOOTSTRAP_TIMEOUT} '[ "$(i2p_reseed_status)" = success ]'
+    notify-send -i /usr/share/icons/anon-icon-pack/i2p-con.png -t 5000 "I2P's Reseeding was successful "
+
 }
 
 notify_router_console_success() {
     notify-send -i /usr/share/icons/anon-icon-pack/i2p-con.png -t 5000 "I2P's router console is ready" "You can now access I2P's router console"
-    iceweasel 127.0.0.1:7657
+    
 }
 
 bootstrap_failure() {
@@ -99,6 +101,7 @@ case "${1}" in
         notify-send -i /usr/share/icons/anon-icon-pack/i2p-start.png -t 4000 "I2P's router is starting" 
         wait_until_i2p_router_console_is_ready || startup_failure
         notify_router_console_success
+	iceweasel 127.0.0.1:7657
         wait_until_i2p_has_bootstrapped || bootstrap_failure
         wait_until_i2p_builds_a_tunnel || bootstrap_failure
         notify_bootstrap_success
